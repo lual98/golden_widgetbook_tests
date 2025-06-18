@@ -45,6 +45,27 @@ This project demonstrates how to automate the creation of golden tests for Flutt
 - To skip a golden test for a specific use case, add `[skip-golden]` to its name.
 - Update your Widgetbook use cases as needed; the test runner will pick them up automatically.
 
+## Customizing the Test Runner
+If your app uses a custom theme or localization, update the test runner (`test/widgetbook_test.dart`) to ensure golden snapshots reflect your actual UI:
+
+```dart
+Widget baseWidget = MaterialApp(
+  locale: AppLocalizations.supportedLocales.first,
+  localizationsDelegates: AppLocalizations.localizationsDelegates,
+
+  Uncomment and set your theme if your app uses a custom theme.
+  theme: Themes.lightTheme,
+  home: Scaffold(
+    body: Builder(
+      builder: (context) {
+        widgetToTest = node.builder(context);
+        return widgetToTest;
+      },
+    ),
+  ),
+);
+```
+
 ## Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
 

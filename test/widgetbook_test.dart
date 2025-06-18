@@ -17,12 +17,12 @@ void main() {
           testWidgets(node.name, (widgetTester) async {
             late Widget widgetToTest;
             Widget baseWidget = MaterialApp(
-              // Add these if your application uses localization.
-              // locale: AppLocalizations.supportedLocales.first,
-              // localizationsDelegates: AppLocalizations.localizationsDelegates,
+              // Uncomment and set your supported locales if your app uses localization.
+              // locale: ...,
+              // localizationsDelegates: ...,
 
-              // Add this if your application uses a theme.
-              // theme: Themes.mainTheme,
+              // Uncomment and set your theme if your app uses a custom theme.
+              // theme: ...,
               home: Scaffold(
                 body: Builder(
                   builder: (context) {
