@@ -18,12 +18,18 @@ final directories = <_i1.WidgetbookNode>[
   _i1.WidgetbookFolder(
     name: 'painting',
     children: [
-      _i1.WidgetbookLeafComponent(
+      _i1.WidgetbookComponent(
         name: 'NetworkImage',
-        useCase: _i1.WidgetbookUseCase(
-          name: 'Default',
-          builder: _i2.buildImageNetworkUseCase,
-        ),
+        useCases: [
+          _i1.WidgetbookUseCase(
+            name: 'Default',
+            builder: _i2.buildImageNetworkUseCase,
+          ),
+          _i1.WidgetbookUseCase(
+            name: 'Error',
+            builder: _i2.buildImageNetworkErrorUseCase,
+          ),
+        ],
       ),
     ],
   ),

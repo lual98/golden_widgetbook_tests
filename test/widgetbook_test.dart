@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_widgetbook_tests/main.directories.g.dart';
@@ -16,6 +18,17 @@ void main() {
           // Golden test case of the story.
           testWidgets(node.name, (widgetTester) async {
             late Widget widgetToTest;
+            final previousOnError = FlutterError.onError;
+            FlutterError.onError = (FlutterErrorDetails details) {
+              // Ignore image loading errors for 'error-network-image' URLs
+              if (details.exceptionAsString().contains(
+                        'NetworkImage is an empty file',
+                      ) &&
+                  details.exceptionAsString().endsWith('error-network-image')) {
+                return;
+              }
+              previousOnError?.call(details);
+            };
             Widget baseWidget = MaterialApp(
               // Uncomment and set your supported locales if your app uses localization.
               // locale: ...,
@@ -35,7 +48,18 @@ void main() {
 
             await mockNetworkImages(
               () async => await widgetTester.pumpWidget(baseWidget),
+              imageResolver: (uri) {
+                if (uri.toString().endsWith('error-network-image')) {
+                  // If the URI is 'error-network-image', return an empty list to simulate an error.
+                  return <int>[];
+                }
+                // Otherwise, return a valid image (transparent PNG)
+                return base64Decode(
+                  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+                );
+              },
             );
+            await widgetTester.pumpAndSettle();
             await precacheImagesAndWait(widgetTester);
 
             await widgetTester.pumpAndSettle();

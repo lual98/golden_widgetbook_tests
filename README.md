@@ -9,7 +9,7 @@ This project demonstrates how to automate the creation of golden tests for Flutt
 
 ## Features
 - **Automatic Golden Test Generation:** All Widgetbook use cases are discovered and tested.
-- **Network Image Mocking:** Handles network images for reliable golden tests.
+- **Network Image Mocking:** Handles network images for reliable golden tests. You can simulate a network image loading error by using the special URL `"error-network-image"` in your use case. This will trigger the errorBuilder in your widget, allowing you to test error states.
 - **Easy Integration:** Just add your Widgetbook use cases and run the tests.
 - **Skippable Cases:** Add `[skip-golden]` to a use case name to skip its golden test.
 
@@ -21,6 +21,7 @@ This project demonstrates how to automate the creation of golden tests for Flutt
   ```
 - The test runner [test/widgetbook_test.dart](test/widgetbook_test.dart) traverses all use cases and generates golden files for each use case.
 - Network images are mocked with `mocktail_image_network` for consistent results.
+- To test error handling for network images, use the URL `error-network-image` in your `Image.network` widget. The test runner will mock this URL as a failed image load, so your `errorBuilder` will be triggered. This is useful for verifying error UI in golden tests.
 
 ## Getting Started
 1. **Install dependencies:**
